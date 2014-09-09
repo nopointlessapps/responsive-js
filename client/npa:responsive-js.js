@@ -9,7 +9,8 @@ var ResponsiveJS = function () {
     this._height = 0;
 
     R.action(function () {
-        that.setViewPort(R.viewportW(), R.viewportH());
+        that.setViewPort(R.deviceW(), R.deviceH());
+        that.setIsLandscape(R.viewportH() < R.viewportW());
     });
 
     this._tabletMinWidth = 400;
@@ -19,11 +20,8 @@ var ResponsiveJS = function () {
 };
 
 ResponsiveJS.prototype.setViewPort = function (width, height) {
-    if (this._width != width || this._height !== height) {
-        this._width = width;
-        this._height = height;
-        this._orientationDeps.changed();
-    }
+    this._width = width;
+    this._height = height;
 
     if (this.isTouchDevice()) {
         if (this._width >= this._tabletMinWidth) {
@@ -49,6 +47,13 @@ ResponsiveJS.prototype.setViewPort = function (width, height) {
     }
 };
 
+ResponsiveJS.prototype.setIsLandscape = function (isLandscape) {
+    if (this._isLandscape !== isLandscape) {
+        this._isLandscape = isLandscape;
+        this._orientationDeps.changed();
+    }
+}
+
 ResponsiveJS.prototype.isTouchDevice = function () {
     try {
         document.createEvent("TouchEvent");
@@ -65,12 +70,12 @@ ResponsiveJS.prototype.isMobile = function () {
 
 ResponsiveJS.prototype.isPortrait = function () {
     this._orientationDeps.depend();
-    return this._width < this._height;
+    return !this._isLandscape;
 };
 
 ResponsiveJS.prototype.isLandscape = function () {
     this._orientationDeps.depend();
-    return this._width > this._height;
+    return !!this._isLandscape;
 };
 
 
