@@ -114,4 +114,4 @@ UI.registerHelper("isDesktop", function () {
     return resposive.isDesktop();
 });
 
-
+Responsive = resposive;

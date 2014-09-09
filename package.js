@@ -11,6 +11,8 @@ Package.onUse(function (api) {
     api.use('tracker');
 
     api.addFiles(['client/lib/response.0.9.0.min.js', 'client/npa:responsive-js.js'], 'client');
+
+    api.export('Responsive', 'client');
 });
 
 Package.onTest(function (api) {
